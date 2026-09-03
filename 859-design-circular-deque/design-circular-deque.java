@@ -1,14 +1,16 @@
-class MyCircularDeque {
-    private final int[] arr;
-    private final int capacity;
-    private int front;
-    private int rear;
+public class MyCircularDeque {
+    int[] arr;
+    int front;
+    int rear;
+    int capacity;
+    int size;
 
     public MyCircularDeque(int k) {
-        capacity = k + 1;
-        arr = new int[capacity];
+        arr = new int[k];
+        capacity = k;
         front = 0;
-        rear = 0;
+        rear = k - 1;
+        size = 0;
     }
 
     public boolean insertFront(int value) {
@@ -18,6 +20,8 @@ class MyCircularDeque {
 
         front = (front - 1 + capacity) % capacity;
         arr[front] = value;
+        size++;
+
         return true;
     }
 
@@ -26,8 +30,10 @@ class MyCircularDeque {
             return false;
         }
 
-        arr[rear] = value;
         rear = (rear + 1) % capacity;
+        arr[rear] = value;
+        size++;
+
         return true;
     }
 
@@ -37,6 +43,8 @@ class MyCircularDeque {
         }
 
         front = (front + 1) % capacity;
+        size--;
+
         return true;
     }
 
@@ -46,6 +54,8 @@ class MyCircularDeque {
         }
 
         rear = (rear - 1 + capacity) % capacity;
+        size--;
+
         return true;
     }
 
@@ -62,14 +72,14 @@ class MyCircularDeque {
             return -1;
         }
 
-        return arr[(rear - 1 + capacity) % capacity];
+        return arr[rear];
     }
 
     public boolean isEmpty() {
-        return front == rear;
+        return size == 0;
     }
 
     public boolean isFull() {
-        return (rear + 1) % capacity == front;
+        return size == capacity;
     }
 }
